@@ -18,13 +18,23 @@ const Home = () => {
 
   function handlePost(e) {
     e.preventDefault();
+    axios.post("http://localhost:7070/posts/create", {
+      title: title,
+      description: description,
+    });
+    window.location.reload();
+  }
+
+  function handleDelete(id) {
+    axios.delete(`http://localhost:7070/posts/delete/${id}`);
+    window.location.reload();
   }
 
   return (
     <div className=" container text-center">
       <h1 className="text-danger">Home Page</h1>
       <div>
-        <form action="" className="">
+        <form className="border border-5 w-50 m-auto">
           <label htmlFor="title">Title:</label>
           <input
             type="text"
@@ -35,7 +45,7 @@ const Home = () => {
           <label htmlFor="description">Description:</label>
           <input
             type="text"
-            onChange={(e) => setDescription(e.target.description)}
+            onChange={(e) => setDescription(e.target.value)}
             id="description"
           />
           <br />
@@ -52,6 +62,12 @@ const Home = () => {
             <div key={_id}>
               <h3>{title}</h3>
               <p>{description}</p>
+              <button
+                onClick={() => handleDelete(_id)}
+                className="btn btn-danger"
+              >
+                Delete
+              </button>
             </div>
           );
         })}
